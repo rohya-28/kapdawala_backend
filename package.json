@@ -1,15 +1,15 @@
 {
   "name": "kapdawala",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for Kapdawala E-commerce",
   "license": "ISC",
-  "author": "",
+  "author": "Rohit",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "dist/server.js",        
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon server.ts"
+    "dev": "nodemon src/server.ts" 
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",
@@ -18,7 +18,7 @@
     "@types/express": "^5.0.3",
     "@types/http-errors": "^2.0.5",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.0.0",     
     "eslint": "^9.30.0",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",

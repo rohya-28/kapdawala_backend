@@ -1,6 +1,6 @@
-import { config } from "./src/config/config";
-import app from "./src/app"
-import connectDb from "./src/config/db";
+import { config } from "./config/config";
+import app from "./app"
+import connectDb from "./config/db";
 
 const startServer = async () => {
     
@@ -10,7 +10,7 @@ const startServer = async () => {
 
     app.listen(port, () => {
         console.log(`Listening on Port: ${port}`);
-        
+         
     })
 }
 
