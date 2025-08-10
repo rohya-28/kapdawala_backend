@@ -1,0 +1,229 @@
+### ✅ 1. Auth & Settings
+
+| API Endpoint                  | Description           | Status    |
+| ----------------------------- | --------------------- | --------- |
+| `POST /admin/login`           | Admin login with JWT  | ✅ Done    |
+| `PATCH /admin/updatePassword` | Admin password update | ✅ Done    |
+| `GET /admin/settings`         | Get current settings  | ❌ Not yet |
+| `PATCH /admin/settings`       | Update app settings   | ❌ Not yet |
+
+---
+
+### ✅ 2. Stores Management
+
+| API Endpoint                      | Description             | Status |
+| --------------------------------- | ----------------------- | ------ |
+| `GET /admin/stores`               | Get all stores          | ✅ Done |
+| `POST /admin/stores`              | Create a new store      | ✅ Done |
+| `GET /admin/stores/:storeId`      | View single store       | ✅ Done |
+| `PATCH /admin/stores/:storeId`    | Update store info       | ✅ Done |
+| `DELETE /admin/stores/:storeId`   | Delete store            | ✅ Done |
+| `PATCH /admin/stores/:id/suspend` | Suspend/unsuspend store | ✅ Done |
+
+---
+
+### ✅  3. Delivery Partners
+
+| API Endpoint                        | Description                   | Status    |
+| ----------------------------------- | ----------------------------- | --------- |
+| `GET /admin/delivery`               | List delivery partners        | ✅ Done |
+| `POST /admin/delivery`              | Add delivery partner          | ✅ Done |
+| `GET /admin/delivery/:partnerId`    | View delivery partner details | ✅ Done |
+| `PATCH /admin/delivery/:partnerId`  | Update partner info           | ✅ Done |
+| `DELETE /admin/delivery/:partnerId` | Remove partner                | ✅ Done |
+
+---
+
+### ❌ 4. Orders
+
+| API Endpoint                | Description                 | Status    |
+| --------------------------- | --------------------------- | --------- |
+| `GET /admin/orders`         | Get all orders              | ❌ Not yet |
+| `GET /admin/orders/live`    | Get active/live orders      | ❌ Not yet |
+| `GET /admin/orders/history` | Order history (all/filters) | ❌ Not yet |
+
+---
+
+### ❌ 5. Payments & Refunds
+
+| API Endpoint                   | Description           | Status    |
+| ------------------------------ | --------------------- | --------- |
+| `GET /admin/payments`          | View payments summary | ❌ Not yet |
+| `GET /admin/payments/refunds`  | View refunds          | ❌ Not yet |
+| `POST /admin/payments/refunds` | Initiate refund       | ❌ Not yet |
+
+---
+
+### ❌ 6. Promotions
+
+| API Endpoint                       | Description                 | Status    |
+| ---------------------------------- | --------------------------- | --------- |
+| `GET /admin/promotions`            | List all offers             | ✅ Done |
+| `POST /admin/promotions/add-offer` | Add a discount/coupon/Limit | ✅ Done |
+| `POST /admin/promotions/add-offer` | Add a discount/coupon/Time  | ✅ Done |
+| `POST /admin/promotions`           | Apply Promotions            | ✅ Done |
+
+---
+
+### ❌ 7. Support Tickets
+
+| API Endpoint                     | Description                     | Status    |
+| -------------------------------- | ------------------------------- | --------- |
+| `GET /admin/support`             | View all support tickets        | ❌ Not yet |
+| `GET /admin/support/:ticketId`   | View a specific ticket          | ❌ Not yet |
+| `PATCH /admin/support/:ticketId` | Resolve/update a support ticket | ❌ Not yet |
+
+---
+
+### ❌ 8. Overview Dashboard
+
+| API Endpoint          | Description                        | Status    |
+| --------------------- | ---------------------------------- | --------- |
+| `GET /admin/overview` | Dashboard stats + insights summary | ❌ Not yet |
+
+
+
+----------------------------------------------------------------------------------------------
+
+------------------------------------END USERS-------------------------------------------------
+
+### ✅ **USER AUTH**
+
+| Endpoint                | Description      | Status    |
+| ----------------------- | ---------------- | --------- |
+| `POST /user/login`      | Login with phone | ✅ Done |
+| `POST /user/sign-up`    | Sign Up          | ✅ Done |
+
+---
+
+### 🏠 **USER HOME**
+
+| Endpoint                       | Description                   | Status    |
+| ------------------------------ | ----------------------------- | --------- |
+| `GET /user/home`               | Home data overview            | ❌ Pending |
+| `GET /user/home/offers`        | List available offers         | ✅ Done    |
+| `GET /user/home/nearby-stores` | Stores based on user location | ✅ Done  |
+
+---
+
+### 🧺 **SELECT SERVICE FLOW**
+
+| Endpoint                                    | Description                | Status    |
+| ------------------------------------------- | -------------------------- | --------- |
+| `GET /user/select-service`                  | Show service categories    | ❌ Pending |
+| `GET /user/select-service/:storeId`         | Services by store          | ❌ Pending |
+| `GET /user/select-service/clothing-type`    | Clothing types per service | ❌ Pending |
+| `POST /user/select-service/schedule-pickup` | Schedule pickup request    | ❌ Pending |
+
+---
+
+### 🧾 **ORDER FLOW**
+
+| Endpoint                          | Description                 | Status    |
+| --------------------------------- | --------------------------- | --------- |
+| `GET /user/order-summary`         | Review order before confirm | ❌ Pending |
+| `POST /user/orders`               | Place order                 | ❌ Pending |
+| `GET /user/orders`                | User's all orders           | ❌ Pending |
+| `GET /user/orders/:orderId`       | Order details               | ❌ Pending |
+| `GET /user/orders/track/:orderId` | Live tracking of order      | ❌ Pending |
+
+---
+
+### 💰 **WALLET**
+
+| Endpoint                        | Description      | Status    |
+| ------------------------------- | ---------------- | --------- |
+| `GET /user/wallet`              | Wallet balance   | ❌ Pending |
+| `GET /user/wallet/transactions` | All transactions | ❌ Pending |
+
+---
+
+### 👤 **PROFILE**
+
+| Endpoint                           | Description                      | Status    |
+| ---------------------------------- | -------------------------------- | --------- |
+| `GET /user/profile`                | Profile overview                 | ❌ Pending |
+| `GET/POST /user/profile/addresses` | View/Add/Edit addresses          | ❌ Pending |
+| `PATCH /user/profile/settings`     | Update user preferences/settings | ❌ Pending |
+
+---
+
+### 🆘 **SUPPORT**
+
+| Endpoint                        | Description                     | Status    |
+| ------------------------------- | ------------------------------- | --------- |
+| `GET /user/support`             | All support tickets             | ❌ Pending |
+| `POST /user/support/new-ticket` | Create support ticket           | ❌ Pending |
+| `GET /user/support/:ticketId`   | View ticket status/conversation | ❌ Pending |
+
+----------------------------------------------------------------------------------------
+
+
+Here’s your **Store App API TODO checklist** in a clear, serial format just like the User App one:
+
+---
+
+### ✅ **STORE AUTH**
+
+| Endpoint                 | Description               | Status    |
+| ------------------------ | ------------------------- | --------- |
+| `POST /store/login`      | Login with phone/password |  ✅ Done  |
+
+---
+
+### 🏠 **STORE HOME**
+
+| Endpoint                | Description                | Status    |
+| ----------------------- | -------------------------- | --------- |
+| `GET /store/home`       | Overview dashboard         | ❌ Pending |
+| `GET /store/home/stats` | Daily/weekly/monthly stats | ❌ Pending |
+
+---
+
+### 📦 **ORDER MANAGEMENT**
+
+| Endpoint                        | Description                      | Status    |
+| ------------------------------- | -------------------------------- | --------- |
+| `GET /store/orders`             | All orders                       | ❌ Pending |
+| `GET /store/orders/new`         | New orders                       | ❌ Pending |
+| `GET /store/orders/in-progress` | Orders currently being processed | ❌ Pending |
+| `GET /store/orders/completed`   | Completed orders                 | ❌ Pending |
+| `GET /store/orders/:orderId`    | Order details                    | ❌ Pending |
+
+---
+🛠 INVENTORY & SERVICES
+
+| Endpoint                              | Description                   | Status    |
+| ------------------------------------- | ----------------------------- | --------- |
+| `GET /store/inventory`                | List all services & inventory | ✅ Done |
+| `POST /store/inventory/add-service`   | **Add new service**           | ✅ Done |
+| `PATCH /store/inventory/edit-service` | Update or remove a service    | ✅ Done |
+
+---
+
+### 💰 **WALLET**
+
+| Endpoint                         | Description         | Status    |
+| -------------------------------- | ------------------- | --------- |
+| `GET /store/wallet`              | Wallet balance      | ❌ Pending |
+| `GET /store/wallet/transactions` | Transaction history | ❌ Pending |
+
+---
+
+### ⭐ **RATINGS**
+
+| Endpoint             | Description           | Status    |
+| -------------------- | --------------------- | --------- |
+| `GET /store/ratings` | All ratings & reviews | ❌ Pending |
+
+---
+
+### 👤 **PROFILE**
+
+| Endpoint                        | Description               | Status    |
+| ------------------------------- | ------------------------- | --------- |
+| `GET /store/profile`            | Store profile             | ❌ Pending |
+| `PATCH /store/profile/settings` | Update profile & settings | ❌ Pending |
+
+---
+
