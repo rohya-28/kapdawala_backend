@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import Store from '../models/store';
 import { sendErrorResponse, sendSuccessResponse } from '../utils/responceHandler';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
+import Order from '../models/order';
 
 //  Create Store
 export const createStore = async (req: Request, res: Response) => {
@@ -134,4 +136,59 @@ export const toggleStoreSuspension = async (req: Request, res: Response) => {
 //   }
 // };
 
+
+// for Store Owner Order Deletion
+
+export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+      const { id } = req.params; // Get the order ID from the URL parameters
+
+      // 1. Validate the order ID format.
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+          return sendErrorResponse(res, 400, 'Invalid Order ID format.');
+      }
+
+      // 2. Authorization Check (now simplified as `verifyStoreToken` handles role verification)
+      // verifyStoreToken ensures `req.storeId` exists and the role is 'store'.
+      // If the middleware didn't attach `req.storeId` or `req.role`, it would have already returned an error.
+      const authenticatedStoreId = req.storeId;
+
+      // This check should ideally not be hit if `verifyStoreToken` works as expected,
+      // but it's a good safeguard for TypeScript or if middleware setup changes.
+      if (!authenticatedStoreId) {
+           return sendErrorResponse(res, 403, 'Forbidden: Store owner ID not available in token.');
+      }
+
+      // 3. Find the order. We need to find it first to check its storeId.
+      const orderToDelete = await Order.findById(id);
+
+      if (!orderToDelete) {
+          return sendErrorResponse(res, 404, 'Order not found.');
+      }
+
+      // 4. Verify that the order's storeId matches the authenticated store owner's storeId.
+      // Assuming orderToDelete.storeId is a mongoose.Types.ObjectId
+      if (!orderToDelete.storeId || !orderToDelete.storeId.equals(authenticatedStoreId)) {
+           return sendErrorResponse(res, 403, 'Forbidden. You can only delete orders from your own store.');
+      }
+
+      // 5. Optionally, add business logic to prevent deletion of orders in certain statuses.
+      if (orderToDelete.status !== 'pending' && orderToDelete.status !== 'created') {
+          return sendErrorResponse(res, 400, `Order cannot be deleted. Its current status is "${orderToDelete.status}". Only "pending" or "created" orders can be deleted.`);
+      }
+
+      // 6. Delete the order.
+      await Order.deleteOne({ _id: id });
+
+      // 7. Send a success response.
+      sendSuccessResponse(res, 200, 'Order deleted successfully.', { orderId: id });
+
+  } catch (error: unknown) {
+      console.error('Error deleting order:', error);
+      if (error instanceof mongoose.Error.ValidationError) {
+          return sendErrorResponse(res, 400, `Validation Error: ${error.message}`, error);
+      }
+      sendErrorResponse(res, 500, 'Failed to delete order due to a server error.', error);
+  }
+};
 

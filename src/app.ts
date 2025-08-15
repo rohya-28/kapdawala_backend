@@ -5,6 +5,7 @@ import userRouter from "./routes/userRouter"; // ✅ import your router
 import adminRouter from "./routes/adminRouter";
 import storeRouter from "./routes/storeOwnerRouter";
 import endUserRouter from "./routes/endUserRouter";
+import deliveryRouter from "./routes/deliveryPartnerRoutes";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/delivery', deliveryRouter);
 app.use('/api/v1/admin', adminRouter); 
 app.use('/api/v1/store', storeRouter); 
 app.use('/api/v1/endUser', endUserRouter); 
