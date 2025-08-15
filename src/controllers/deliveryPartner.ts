@@ -141,68 +141,77 @@ export const deletePartner = async (req: Request, res: Response) => {
 };
 
 export const acceptOrder = async (req: Request, res: Response): Promise<void> => {
-    try {
-        // 1. Destructure orderId from params and deliveryPersonnelId from authenticated user/body.
-        // Assuming orderId comes from route params (e.g., /orders/:orderId/accept)
-        const { orderId } = req.params;
-        // Assuming deliveryPersonnelId comes from the authenticated user's token or request body
-        // For simplicity, let's assume it comes from the request body for now.
-        // In a real app, this would typically be extracted from the JWT token of the logged-in delivery guy.
-        const { deliveryPersonnelId } = req.body;
+  try {
+    const { orderId } = req.params;
+    const { deliveryPersonnelId } = req.body;   // <-- coming from body
 
-        // 2. Basic validation for IDs
-        if (!orderId || !deliveryPersonnelId) {
-            return sendErrorResponse(res, 400, "Order ID and Delivery Personnel ID are required.");
-        }
-        if (!mongoose.Types.ObjectId.isValid(orderId) || !mongoose.Types.ObjectId.isValid(deliveryPersonnelId)) {
-            return sendErrorResponse(res, 400, "Invalid ID format for Order or Delivery Personnel.");
-        }
-
-        // 3. Verify Delivery Personnel existence and availability
-        const deliveryGuy = await DeliveryPartner.findById(deliveryPersonnelId);
-        if (!deliveryGuy) {
-            return sendErrorResponse(res, 404, "Delivery personnel not found.");
-        }
-        if (!deliveryGuy.isApproved) { // Check if the delivery guy is approved
-             return sendErrorResponse(res, 403, "Delivery personnel not approved to accept orders.");
-        }
-        if (!deliveryGuy.isAvailable) { // Check if the delivery guy is currently available
-             return sendErrorResponse(res, 400, "Delivery personnel is currently not available.");
-        }
-
-
-        // 4. Find the order and ensure it can be accepted.
-        // The order must be 'pending' and not already assigned to a delivery person.
-        const order: IOrder | null = await Order.findById(orderId);
-
-        if (!order) {
-            return sendErrorResponse(res, 404, "Order not found.");
-        }
-
-        if (order.status !== "pending") {
-            return sendErrorResponse(res, 400, `Order status is "${order.status}". Only "pending" orders can be accepted.`);
-        }
-
-        if (order.deliveryPersonnelId) {
-            return sendErrorResponse(res, 400, "This order has already been assigned to a delivery person.");
-        }
-
-        // 5. Assign the delivery personnel to the order and update its status.
-        order.deliveryPersonnelId = new mongoose.Types.ObjectId(deliveryPersonnelId);
-        order.status = "picked_up"; // Or a new status like "assigned" if you want an intermediate step
-
-        await order.save();
-
-        // 6. Send success response.
-        sendSuccessResponse(res, 200, "Order successfully accepted by delivery personnel.", order);
-
-    } catch (error) {
-        console.error("Error accepting order:", error);
-        if (error instanceof mongoose.Error.ValidationError) {
-            return sendErrorResponse(res, 400, `Validation Error: ${error.message}`, error);
-        }
-        sendErrorResponse(res, 500, "Server error. Could not accept the order.");
+    // 1. Basic validations
+    if (!orderId || !deliveryPersonnelId) {
+      return sendErrorResponse(
+        res,
+        400,
+        "Order ID and Delivery Personnel ID are required."
+      );
     }
+
+    if (
+      !mongoose.Types.ObjectId.isValid(orderId) ||
+      !mongoose.Types.ObjectId.isValid(deliveryPersonnelId)
+    ) {
+      return sendErrorResponse(res, 400, "Invalid ID format.");
+    }
+
+    // 2. Verify delivery partner exists and is available/approved
+    const deliveryGuy = await DeliveryPartner.findById(deliveryPersonnelId);
+    if (!deliveryGuy) {
+      return sendErrorResponse(res, 404, "Delivery personnel not found.");
+    }
+    if (!deliveryGuy.isApproved) {
+      return sendErrorResponse(res, 403, "Delivery personnel not approved.");
+    }
+    if (!deliveryGuy.isAvailable) {
+      return sendErrorResponse(res, 400, "Delivery personnel not available right now.");
+    }
+
+    // 3. Find the order
+    const order: IOrder | null = await Order.findById(orderId);
+    if (!order) {
+      return sendErrorResponse(res, 404, "Order not found.");
+    }
+
+    // Order must be pending and not assigned
+    if (order.status !== "pending") {
+      return sendErrorResponse(
+        res,
+        400,
+        `Order status is "${order.status}". Only pending orders can be accepted.`
+      );
+    }
+    if (order.deliveryPersonnelId) {
+      return sendErrorResponse(
+        res,
+        400,
+        "This order has already been assigned to a delivery person."
+      );
+    }
+
+    // 4. Assign the partner and update status
+    order.deliveryPersonnelId = new mongoose.Types.ObjectId(deliveryPersonnelId);
+    order.status = "picked_up";       // or "assigned" if you use another intermediate state
+    order.pickupDate = new Date();    // (optional) log the actual pickup time
+
+    await order.save();
+
+    return sendSuccessResponse(
+      res,
+      200,
+      "Order successfully accepted by delivery personnel.",
+      order
+    );
+  } catch (error) {
+    console.error("acceptOrder ERROR =>", error);
+    return sendErrorResponse(res, 500, "Server error. Could not accept the order."); 
+  }
 };
 
 // Delivery Partner Section 

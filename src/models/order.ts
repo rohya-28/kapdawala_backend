@@ -74,7 +74,7 @@ const OrderSchema = new Schema<IOrder>(
             },
         },
         deliveryPersonnelId: { type: Schema.Types.ObjectId, ref: 'DeliveryPartner' },
-        pickupDate: { type: Date, required: true },
+        pickupDate: { type: Date, required: false },
         deliveryDate: { type: Date },
         paymentStatus: {
             type: String,
@@ -85,7 +85,7 @@ const OrderSchema = new Schema<IOrder>(
         paymentMethod: {
             type: String,
             enum: ['cash', 'online'],
-            required: true,
+            required: false,
         },
         orderNotes: { type: String },
     },

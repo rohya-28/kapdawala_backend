@@ -9,7 +9,7 @@ const deliveryRouter = Router();
 
 deliveryRouter.post('/login',deliveryPartnerLogin );
 deliveryRouter.get('/orders/available', getAvailableOrders);
-deliveryRouter.patch("/orders/:orderId/accept", acceptOrder);
+deliveryRouter.patch("/orders/:orderId/accept", acceptOrder); 
 
 
 export default deliveryRouter;
