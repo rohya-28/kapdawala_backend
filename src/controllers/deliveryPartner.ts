@@ -7,7 +7,6 @@ import bcrypt from 'bcrypt';
 import User from '../models/user';
 import {  registerDeliveryPartnerSchema } from '../validations/deliveryPartnerSchemas';
 
-
 //  GET /admin/delivery
 export const getAllDeliveryPartners = async (_req: Request, res: Response) => {
   try {
