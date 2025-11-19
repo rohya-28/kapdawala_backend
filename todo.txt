@@ -66,7 +66,7 @@
 ---
 
 ### ❌ 7. Support Tickets
-
+   
 | API Endpoint                     | Description                     | Status    |
 | -------------------------------- | ------------------------------- | --------- |
 | `GET /admin/support`             | View all support tickets        | ❌ Not yet |

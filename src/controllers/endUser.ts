@@ -168,5 +168,42 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { userId } = req.query;
+  
+      // Validate required field
+      if (!userId) {
+        return sendErrorResponse(res, 400, "Missing required field: userId");
+      }
+  
+      // Validate ObjectId
+      if (!mongoose.Types.ObjectId.isValid(userId as string)) {
+        return sendErrorResponse(res, 400, "Invalid User ID format.");
+      }
+  
+      // Check user exists
+      const userExists = await User.findById(userId);
+      if (!userExists) {
+        return sendErrorResponse(res, 404, "User not found with the provided userId.");
+      }
+  
+      // Fetch orders ONLY for this user
+      const orders = await Order.find({
+        userId: new mongoose.Types.ObjectId(userId.toString())
+      })
+        .populate("storeId", "name address phone")
+        .sort({ createdAt: -1 });
+  
+      return sendSuccessResponse(res, 200, "Orders fetched successfully", orders);
+  
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      return sendErrorResponse(res, 500, "Server error. Could not fetch orders.");
+    }
+  };
+  
+  
+  
 
 

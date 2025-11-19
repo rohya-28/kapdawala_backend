@@ -6,6 +6,7 @@ import adminRouter from "./routes/adminRouter";
 import storeRouter from "./routes/storeOwnerRouter";
 import endUserRouter from "./routes/endUserRouter";
 import deliveryRouter from "./routes/deliveryPartnerRoutes";
+import { Socket } from "socket.io";
 
 const app = express();
 

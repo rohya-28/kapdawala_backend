@@ -87,7 +87,6 @@ export const deleteService = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-
 // GET /store/inventory
 export const getInventory = async (req: Request, res: Response): Promise<void> => {
   try {
